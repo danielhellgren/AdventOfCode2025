@@ -5,16 +5,16 @@ def getPassword(turns):
 
     for turn in turns:
         completedRotations, dialValue = turnDial(completedRotations, dialValue, turn.replace("\n", ""))
-        
+
     print(completedRotations)
 
 def turnDial(completedRotations, dialValue, turn):
     DIAL_SIZE = 100
     isLeftTurn = turn[0] == "L"
-    rotations = 0
+    extraRotations = 0
     turnValue = int(turn[1:])
-    rotations, turnValue = divmod(turnValue, DIAL_SIZE)
-
+    if(turnValue > DIAL_SIZE):
+        extraRotations, turnValue = divmod(turnValue, DIAL_SIZE)
     if(isLeftTurn):
         turnValue = -turnValue
 
@@ -22,10 +22,10 @@ def turnDial(completedRotations, dialValue, turn):
     passedZeroNotStartedFromZero = dialValue != 0 and (newDialValue <= 0 or newDialValue >= DIAL_SIZE)
 
     if(passedZeroNotStartedFromZero):
-        rotations += 1
+        extraRotations += 1
 
     newDialValue = newDialValue % DIAL_SIZE
-    completedRotations += rotations
+    completedRotations += extraRotations
 
     return (completedRotations, newDialValue)
 
