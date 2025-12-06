@@ -27,15 +27,14 @@ def parseKeyLine(file):
 def splitByKey(inStr, key):
     splits = []
     indexOffset = 0
-    for i, part in enumerate(key):
+
+    for part in key:
         partSize = len(part)
         split = inStr[indexOffset:indexOffset+partSize]
         splits.append(split)
         indexOffset += partSize + 1
 
     return splits
-
-
 
 def readInputToColumnList(file):
     columns = []
@@ -57,6 +56,7 @@ def readInputToColumnList(file):
 def rearrangeNumbers(valueList):
     newNumbers = []
     numbersSize = len(valueList[0])
+
     for i in range(numbersSize):
         number = ""
         for value in valueList:
@@ -75,18 +75,23 @@ def sumOpartionsLists(valueLists, operationList):
             totalSum += summation(valueList)
         if(operator == "*"):
             totalSum += multiplication(valueList)
+            
     return totalSum
 
 def summation(inputList):
     result = 0
+
     for x in inputList:
         result += x
+
     return result
 
 def multiplication(inputList):
     result = 1
+
     for x in inputList:
         result *= int(x)
+
     return result
 
 def main():
