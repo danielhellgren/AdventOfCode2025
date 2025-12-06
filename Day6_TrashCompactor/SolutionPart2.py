@@ -75,7 +75,7 @@ def sumOpartionsLists(valueLists, operationList):
             totalSum += summation(valueList)
         if(operator == "*"):
             totalSum += multiplication(valueList)
-            
+
     return totalSum
 
 def summation(inputList):
@@ -97,7 +97,6 @@ def multiplication(inputList):
 def main():
     with open("Day6_TrashCompactor\\input.txt", "r") as file:
         valueLists, operationList = readInputToColumnList(file)
-        print(str(valueLists))
         totalSum = sumOpartionsLists(valueLists, operationList)
         print("Total: " + str(totalSum))
 
