@@ -48,10 +48,6 @@ def connectCircuits(distance, circuits, connectedBoxes):
     toConnect = distance[1]
     connectToBox = distance[0]
 
-    #if distance[0] not in connectedBoxes and distance[1] in connectedBoxes:
-    #    toConnect = distance[0]
-    #    connectToBox = distance[1]
-
     ind1 = findIndex(circuits, connectToBox)
     ind2 = findIndex(circuits, toConnect)
 
@@ -63,10 +59,6 @@ def connectCircuits(distance, circuits, connectedBoxes):
     toConnectActual = circuits.pop(ind2)
     for values in toConnectActual:
         circuits[ind1].append(values)
-    if(toConnect not in connectedBoxes):
-        connectedBoxes.append(toConnect)
-    if(connectToBox not in connectedBoxes):
-        connectedBoxes.append(connectToBox)
 
 def initCircuits(boxes):
     circuits = []
