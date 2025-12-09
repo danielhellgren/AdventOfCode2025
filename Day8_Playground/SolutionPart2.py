@@ -38,48 +38,47 @@ def findRoot(parent_map, box):
     parent_map[box] = findRoot(parent_map, parent_map[box])
     return parent_map[box]
 
-def unionCircuits(parentMap, box1, box2):
+def unionCircuits(circuitsMap, box1, box2):
 
-    root1 = findRoot(parentMap, box1)
-    root2 = findRoot(parentMap, box2)
+    root1 = findRoot(circuitsMap, box1)
+    root2 = findRoot(circuitsMap, box2)
 
     if root1 != root2:
 
-        parentMap[root1] = root2
+        circuitsMap[root1] = root2
         return True
     return False # 
 
-def connectBoxes(distances, boxes, connectionLimit):
+def countNumberOfCircuits(circuitMap, boxes):
+    unique_roots = set()
+    for box in boxes:
+        root = findRoot(circuitMap, box)
+        unique_roots.add(root)
+        
+    return len(unique_roots)
 
-    parent_map = {box: box for box in boxes}
-
-    for i in range(connectionLimit):
+def connectBoxes(distances, boxes):
+    res = 0
+    circuitsMap = {box: box for box in boxes}
+    
+    i = 0
+    while True:
         if i >= len(distances):
+            res = -1
             break
         box1, box2, dist = distances[i]
-        unionCircuits(parent_map, box1, box2)
-        print(str(parent_map))
-        print(*parent_map, sep="\n")
-        print("-----")
+        merged = unionCircuits(circuitsMap, box1, box2)
         
-    finalCircuitSizes = {}
-    for box in boxes:
-        root = findRoot(parent_map, box)
-        if root not in finalCircuitSizes:
-            finalCircuitSizes[root] = 0
-        finalCircuitSizes[root] += 1
-    
-    sortedSizes = sorted(finalCircuitSizes.values(), reverse=True)
-
-    n = 3
-    res = 1
-    for i in range(n):
-        if i < len(sortedSizes):
-            print(f"size {i+1}: " + str(sortedSizes[i]))
-            res *= sortedSizes[i]
-        else:
+        if(merged):
+            amountOfCircuits = countNumberOfCircuits(circuitsMap, boxes)
+        if amountOfCircuits == 1:
+            x1, y1, z1 = box1.split(",", 3)
+            x2, y2, z2 = box2.split(",", 3)
+            res = int(x1) * int(x2)
             break
-
+        i += 1
+        
+    
     print("result: " + str(res))
 
 def getUniqueBoxPairs(boxes):
@@ -92,12 +91,12 @@ def getUniqueBoxPairs(boxes):
     return pairs
 
 def main():
-    CONNECTION_LIMIT = 10
+    CONNECTION_LIMIT = 1000
     with open("Day8_Playground\\input.txt", "r") as file:
         boxes = file.read().strip().splitlines()
 
         distances = getDistances(boxes)
-        connectBoxes(distances, boxes, CONNECTION_LIMIT)
+        connectBoxes(distances, boxes)
 
 
 if __name__ == "__main__":
